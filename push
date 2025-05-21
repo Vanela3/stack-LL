@@ -1,0 +1,57 @@
+#include <stdio.h>   // Standard input/output library for using printf, scanf
+#include <stdlib.h>  // Standard library for dynamic memory allocation (malloc, free)
+
+struct Node {        // Define a structure to represent a node in the stack
+    int data;        // Stores the integer value of the node
+    struct Node *next; // Pointer to the next node in the stack (Linked List)
+};
+
+int main() {
+    struct Node *tos = NULL; // Initialize 'tos' as NULL (Stack is empty)
+    struct Node *new, *temp; // Pointers for new node creation and traversal
+    int value;               // Variable to store the user-entered value
+    char choice;             // Variable to store user choice for pushing more elements
+
+    // Loop to push elements dynamically into the stack
+    do {
+        new = (struct Node *)malloc(sizeof(struct Node)); // Allocate memory for a new node
+
+        if (new == NULL) { // If memory allocation fails
+            printf("Memory allocation failed\n");
+            return 0;       // Exit the program with failure
+        }
+
+        printf("Enter value: "); // Prompt user for input
+        scanf("%d", &value);     // Read integer input from the user
+        new->data = value;       // Assign input value to the new node
+        new->next = NULL;        // Set next pointer to NULL initially
+
+        if (tos == NULL) { // If stack is empty, make 'tos' point to the first node
+            tos = new;
+        } else { // Otherwise, push the new node on top of the stack
+            new->next = tos; // Link new node to current top element
+            tos = new;       // Update 'tos' to the new top element
+        }
+
+        printf("Push another element? (y/n): "); // Ask if user wants to continue
+        scanf(" %c", &choice); // Read user input ('y' to continue, 'n' to stop)
+
+    } while (choice == 'y'); // Repeat until user enters 'n'
+
+    // Traverse and display stack elements from top to bottom
+    temp = tos;
+    if (temp == NULL) { // If stack is empty
+        printf("Stack is empty\n");
+    } else {
+        printf("\nStack elements:\n");
+
+        while (temp != NULL) { // Loop through the stack
+            printf("%d -> ", temp->data); // Print current node's value
+            temp = temp->next; // Move to the next node
+        }
+
+        printf("NULL\n"); // Indicate end of stack
+    }
+
+    return 0; // End program successfully
+}
